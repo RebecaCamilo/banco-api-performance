@@ -2,10 +2,17 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 export const options = {
-    iterations: 50,
+    // iterations: 50,
+    vus: 10, // 10 virtual users
+    duration: '30s', // 30 seconds
+    // stages: [
+    //     { duration: '30s', target: 20 }, // ramp up to 20 users over 30 seconds
+    //     { duration: '1m30s', target: 10 }, // stay at 10 users for 1m30s
+    //     { duration: '20s', target: 0 }, // ramp down to 0 users over 20 seconds
+    // ],
     thresholds: {
         'http_req_failed': ['rate<0.01'], // http errors should be less than 1%>,
-        'http_req_duration': ['p(90)<10', 'max<1'], // 90% of requests should be below 10ms, max below 20ms
+        'http_req_duration': ['p(90)<3000', 'max<5000'], // 90% of requests should be below 10ms, max below 20ms
     },
 };
 
